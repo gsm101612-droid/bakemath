@@ -1,1 +1,76 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Free Kitchen & Baking Converters | BakeUnits</title><meta name="description" content="Convert cups to grams by ingredient, kitchen measurements, oven temperatures, and recipe quantities with free BakeUnits tools."><link rel="canonical" href="https://bakeunits.com/"><link rel="stylesheet" href="/styles.css"><script defer src="/app.js"></script></head><body><header><a class="brand" href="/">🥣 BakeUnits <small>BAKING BY THE NUMBERS</small></a><nav><a href="#tools">Tools</a><a href="/conversions.html">Quick Guide</a><a href="/about.html">About</a></nav></header><main><section class="hero"><div><p class="eyebrow">FREE KITCHEN CONVERSION TOOLS</p><h1>Good baking starts with the <em>right measurements.</em></h1><p>Convert ingredients, check oven temperatures, and adjust recipe quantities with simple tools made for home cooks and bakers.</p><a class="button" href="#tools">Explore the tools →</a><p class="sub">Free to use · No sign-up · Works on mobile</p></div><div class="art"><div class="bubble">1 cup flour<strong>≈ 120 g</strong></div><div class="bowl">🥣</div><div class="bubble second">350°F<strong>≈ 177°C</strong></div></div></section><section id="tools"><p class="eyebrow">YOUR KITCHEN TOOLKIT</p><h2>What are you converting today?</h2><div class="cards"><a class="card" href="/cups-to-grams.html"><span>⚖️</span><small>INGREDIENT WEIGHTS</small><h3>Cups to Grams</h3><p>Find approximate gram weights for common baking ingredients.</p><b>Convert ingredients →</b></a><a class="card" href="/measurement-converter.html"><span>🥄</span><small>VOLUME MEASUREMENTS</small><h3>Measurement Converter</h3><p>Switch between cups, tablespoons, teaspoons, milliliters, and more.</p><b>Convert measurements →</b></a><a class="card" href="/temperature-converter.html"><span>🌡️</span><small>OVEN SETTINGS</small><h3>Temperature Converter</h3><p>Convert Fahrenheit and Celsius for your oven and recipes.</p><b>Convert temperature →</b></a><a class="card" href="/recipe-scaler.html"><span>🍰</span><small>RECIPE PLANNING</small><h3>Recipe Scaler</h3><p>Adjust ingredient quantities when making more or less food.</p><b>Scale a recipe →</b></a></div></section><section class="quick"><div><p class="eyebrow">AT A GLANCE</p><h2>Kitchen conversions you’ll use again and again.</h2><p>Save these everyday reference points. Different ingredients can weigh very different amounts in the same measuring cup.</p><a href="/conversions.html">Browse the conversion guide →</a></div><div class="facts"><div>🥛 <b>1 US cup</b><strong>236.6 ml</strong></div><div>🥄 <b>1 tablespoon</b><strong>3 teaspoons</strong></div><div>🌾 <b>1 cup flour</b><strong>≈ 120 g</strong></div><div>🔥 <b>350°F</b><strong>≈ 177°C</strong></div></div></section><section><p class="eyebrow">MADE FOR REAL KITCHENS</p><h2>Less guesswork. More confidence.</h2><div class="benefits"><article><h3>Clear answers</h3><p>Simple inputs and readable results help you get back to cooking quickly.</p></article><article><h3>Ingredient-aware</h3><p>Weight conversions reflect that flour, sugar, butter, and liquids have different densities.</p></article><article><h3>Useful anywhere</h3><p>Use BakeUnits on desktop, tablet, or phone while following a recipe.</p></article></div></section></main><footer><div><a class="brand" href="/">🥣 BakeUnits</a><p>Practical kitchen conversions for everyday cooking and baking.</p></div><nav><a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/privacy.html">Privacy Policy</a><a href="/conversions.html">Conversion Guide</a></nav><p>© <span data-year>2026</span> BakeUnits · Ingredient weights are estimates; use a scale when precision matters.</p></footer></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kitchen & Baking Converters | BakeMath</title>
+  <meta name="description" content="Free kitchen and baking conversion tools for cups, grams, tablespoons, teaspoons, and oven temperatures.">
+  <link rel="canonical" href="https://YOUR-DOMAIN.example/">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="index.html" aria-label="BakeMath home"><span class="brand-mark">B</span> BakeMath</a>
+  <nav><a href="#tools">Tools</a><a href="about.html">About</a><a href="contact.html">Contact</a></nav>
+</header>
+<main>
+  <section class="hero">
+    <p class="eyebrow">FREE KITCHEN & BAKING TOOLS</p>
+    <h1>Kitchen conversions, made simple.</h1>
+    <p class="hero-copy">Convert common cooking measurements and scale recipes with easy, practical tools.</p>
+    <a class="button" href="#tools">Explore the tools ↓</a>
+  </section>
+
+  <section id="tools" class="section">
+    <div class="section-heading"><div><p class="eyebrow">THE TOOLBOX</p><h2>Choose a converter</h2></div><p class="muted">Free to use · Works on your phone</p></div>
+    <div class="tool-grid">
+      <article class="tool-card">
+        <div class="tool-icon">⚖️</div><h3>Cups to Grams</h3>
+        <p>Estimate ingredient weight by choosing a specific ingredient.</p>
+        <label for="ingredient">Ingredient</label>
+        <select id="ingredient">
+          <option value="flour">All-purpose flour</option><option value="sugar">Granulated sugar</option>
+          <option value="brown">Packed brown sugar</option><option value="powdered">Powdered sugar</option>
+          <option value="butter">Butter</option><option value="cocoa">Cocoa powder</option><option value="water">Water</option>
+        </select>
+        <label for="cups">Cups</label><input id="cups" type="number" min="0" step="any" value="1">
+        <button id="convert-cups" class="button full">Convert to grams</button>
+        <p id="cups-result" class="result" aria-live="polite">1 US cup ≈ 120 g all-purpose flour</p>
+        <p class="fine-print">Approximate values; ingredient packing and measuring methods affect weight.</p>
+      </article>
+      <article class="tool-card">
+        <div class="tool-icon">🌡️</div><h3>Oven Temperature</h3>
+        <p>Convert Fahrenheit and Celsius for recipes.</p>
+        <div class="two-fields"><div><label for="fahrenheit">Fahrenheit (°F)</label><input id="fahrenheit" type="number" value="350" step="any"></div><div><label for="celsius">Celsius (°C)</label><input id="celsius" type="number" value="177" step="any"></div></div>
+        <p id="temp-result" class="result" aria-live="polite">350°F = 176.7°C</p>
+        <p class="fine-print">Conversions use the standard temperature formula and round for display.</p>
+      </article>
+      <article class="tool-card">
+        <div class="tool-icon">🥄</div><h3>Tablespoons & Teaspoons</h3>
+        <p>Switch between common US spoon measurements.</p>
+        <label for="spoon-amount">Amount</label><input id="spoon-amount" type="number" min="0" step="any" value="1">
+        <label for="spoon-direction">Convert</label><select id="spoon-direction"><option value="tbsp-tsp">Tablespoons to teaspoons</option><option value="tsp-tbsp">Teaspoons to tablespoons</option></select>
+        <button id="convert-spoon" class="button full">Convert amount</button>
+        <p id="spoon-result" class="result" aria-live="polite">1 tablespoon = 3 teaspoons</p>
+      </article>
+      <article class="tool-card">
+        <div class="tool-icon">🍰</div><h3>Recipe Scaler</h3>
+        <p>Adjust ingredient quantities to fit your serving needs.</p>
+        <div class="two-fields"><div><label for="original-servings">Original servings</label><input id="original-servings" type="number" min="1" step="1" value="4"></div><div><label for="new-servings">New servings</label><input id="new-servings" type="number" min="1" step="1" value="8"></div></div>
+        <label for="original-amount">Original ingredient amount</label><input id="original-amount" type="number" min="0" step="any" value="2">
+        <button id="scale-recipe" class="button full">Scale amount</button>
+        <p id="scale-result" class="result" aria-live="polite">2 units for 4 servings → 4 units for 8 servings</p>
+        <p class="fine-print">This scales quantity only; cooking time and pan size may need separate adjustments.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div><p class="eyebrow">A QUICK NOTE</p><h2>Measure with confidence</h2></div>
+    <div><p>Cooking measurements can vary by ingredient, packing, and measuring technique. For baking, a kitchen scale is often the most consistent way to measure dry ingredients.</p><p>Use these converters as helpful estimates, and follow the instructions in your recipe whenever they provide a specific measurement method.</p></div>
+  </section>
+</main>
+<footer class="site-footer"><span>© <span id="year"></span> BakeMath</span><div><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy Policy</a></div></footer>
+</body>
+</html>
