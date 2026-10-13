@@ -1,36 +1,4 @@
-const $ = (id) => document.getElementById(id);
-const fmt = (n, digits=2) => Number(n.toFixed(digits)).toLocaleString("en-US", {maximumFractionDigits:digits});
-const ingredientGrams = { flour:120, sugar:200, brown:220, powdered:120, butter:227, cocoa:85, water:240 };
-const ingredientNames = { flour:"all-purpose flour", sugar:"granulated sugar", brown:"packed brown sugar", powdered:"powdered sugar", butter:"butter", cocoa:"cocoa powder", water:"water" };
-
-function convertCups(){
-  const amount = Number($("cups").value), ingredient = $("ingredient").value;
-  if (!Number.isFinite(amount) || amount < 0) { $("cups-result").textContent = "Enter a valid non-negative cup amount."; return; }
-  $("cups-result").textContent = `${fmt(amount,3)} US cup${amount===1?"":"s"} ≈ ${fmt(amount*ingredientGrams[ingredient],1)} g ${ingredientNames[ingredient]}`;
-}
-$("convert-cups").addEventListener("click",convertCups);
-$("ingredient").addEventListener("change",convertCups);
-$("cups").addEventListener("input",convertCups);
-
-function fromF(){ const f=Number($("fahrenheit").value); if(!Number.isFinite(f)){ $("temp-result").textContent="Enter a valid Fahrenheit temperature."; return; } $("celsius").value=((f-32)*5/9).toFixed(1); $("temp-result").textContent=`${fmt(f,1)}°F = ${fmt((f-32)*5/9,1)}°C`; }
-function fromC(){ const c=Number($("celsius").value); if(!Number.isFinite(c)){ $("temp-result").textContent="Enter a valid Celsius temperature."; return; } $("fahrenheit").value=(c*9/5+32).toFixed(1); $("temp-result").textContent=`${fmt(c,1)}°C = ${fmt(c*9/5+32,1)}°F`; }
-$("fahrenheit").addEventListener("input",fromF); $("celsius").addEventListener("input",fromC);
-
-function convertSpoons(){
- const n=Number($("spoon-amount").value), dir=$("spoon-direction").value;
- if(!Number.isFinite(n)||n<0){$("spoon-result").textContent="Enter a valid non-negative amount.";return;}
- if(dir==="tbsp-tsp") $("spoon-result").textContent=`${fmt(n,3)} tablespoon${n===1?"":"s"} = ${fmt(n*3,3)} teaspoon${n*3===1?"":"s"}`;
- else $("spoon-result").textContent=`${fmt(n,3)} teaspoon${n===1?"":"s"} = ${fmt(n/3,3)} tablespoon${n/3===1?"":"s"}`;
-}
-$("convert-spoon").addEventListener("click",convertSpoons); $("spoon-amount").addEventListener("input",convertSpoons); $("spoon-direction").addEventListener("change",convertSpoons);
-
-function scaleRecipe(){
- const oldS=Number($("original-servings").value), newS=Number($("new-servings").value), amount=Number($("original-amount").value);
- if(!Number.isFinite(oldS)||!Number.isFinite(newS)||!Number.isFinite(amount)||oldS<=0||newS<=0||amount<0){$("scale-result").textContent="Enter positive serving counts and a non-negative amount.";return;}
- const scaled=amount*newS/oldS;
- $("scale-result").textContent=`${fmt(amount,3)} units for ${oldS} servings → ${fmt(scaled,3)} units for ${newS} servings`;
-}
-$("scale-recipe").addEventListener("click",scaleRecipe);
-["original-servings","new-servings","original-amount"].forEach(id=>$(id).addEventListener("input",scaleRecipe));
-$("year").textContent = new Date().getFullYear();
-convertCups(); fromF(); convertSpoons(); scaleRecipe();
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],fmt=n=>Number(n.toFixed(3)).toLocaleString('en-US',{maximumFractionDigits:3});
+const weights={'All-purpose flour':120,'Bread flour':127,'Cake flour':100,'Whole wheat flour':130,'Almond flour':96,'Rolled oats':90,'Cornstarch':128,'Granulated sugar':200,'Packed brown sugar':220,'Powdered sugar':120,'Honey':340,'Maple syrup':322,'Butter':227,'Vegetable oil':218,'Olive oil':216,'Cream cheese':232,'Whole milk':244,'Heavy cream':238,'Cocoa powder':85,'Chocolate chips':170,'Chopped walnuts':117,'Raisins':165,'Shredded coconut':80,'Peanut butter':258,'Water':237,'Baking powder':192,'Baking soda':230,'Salt':273};
+const vol={teaspoon:4.92892,tablespoon:14.7868,'fluid ounce':29.5735,cup:236.588,pint:473.176,quart:946.353,gallon:3785.41,milliliter:1,liter:1000};
+document.addEventListener('DOMContentLoaded',()=>{$$('[data-year]').forEach(e=>e.textContent=new Date().getFullYear());const ing=$('#ingredient'),amt=$('#cups-amount');if(ing&&amt){ing.innerHTML=Object.keys(weights).map(k=>`<option>${k}</option>`).join('');const calc=()=>{$('#grams-result').textContent=fmt((Number(amt.value)||0)*weights[ing.value])+' g';$('#grams-detail').textContent=`${amt.value||0} US cup(s) of ${ing.value.toLowerCase()} · ${weights[ing.value]} g per cup (approx.)`};ing.onchange=calc;amt.oninput=calc;$$('[data-cups]').forEach(b=>b.onclick=()=>{amt.value=b.dataset.cups;calc()});calc()}const f=$('#fahrenheit'),c=$('#celsius');if(f&&c){f.oninput=()=>{if(document.activeElement===f)c.value=f.value===''?'':((Number(f.value)-32)*5/9).toFixed(2)};c.oninput=()=>{if(document.activeElement===c)f.value=c.value===''?'':(Number(c.value)*9/5+32).toFixed(2)};$$('[data-f]').forEach(b=>b.onclick=()=>{f.value=b.dataset.f;f.dispatchEvent(new Event('input'))})}const ma=$('#measure-amount'),mf=$('#measure-from'),mt=$('#measure-to');if(ma&&mf&&mt){[mf,mt].forEach(s=>s.innerHTML=Object.keys(vol).map(k=>`<option value="${k}">${k}</option>`).join(''));mf.value='cup';mt.value='milliliter';const calc=()=>{const v=(Number(ma.value)||0)*vol[mf.value]/vol[mt.value];$('#measure-result').textContent=fmt(v)+' '+mt.value;$('#measure-detail').textContent=`${ma.value} ${mf.value} = ${fmt(v)} ${mt.value}`};[ma,mf,mt].forEach(e=>e.addEventListener('input',calc));calc()}const base=$('#base-servings'),target=$('#target-servings'),list=$('#ingredient-list'),out=$('#scaled-list');if(base&&target&&list&&out){const add=(amount='',name='')=>{const d=document.createElement('div');d.className='ingredient-row';d.innerHTML=`<label>Amount<input class="i-amount" type="number" min="0" step="any" value="${amount}" placeholder="e.g. 2"></label><label>Ingredient / unit<input class="i-name" value="${name}" placeholder="cups flour, eggs..."></label>`;list.appendChild(d);d.querySelectorAll('input').forEach(e=>e.addEventListener('input',calc))};function calc(){const factor=(Number(target.value)||1)/(Number(base.value)||1);$('#scale-factor').textContent=fmt(factor)+'×';out.innerHTML='';$$('.ingredient-row',list).forEach(r=>{const li=document.createElement('li'),v=r.querySelector('.i-amount').value,n=r.querySelector('.i-name').value||'ingredient';li.textContent=`${v===''?'—':fmt((Number(v)||0)*factor)} ${n}`;out.appendChild(li)})}$('#add-ingredient').onclick=()=>{add();calc()};[base,target].forEach(e=>e.addEventListener('input',calc));add('2','cups all-purpose flour');add('1','large egg');add('0.5','cup milk');calc()}});
