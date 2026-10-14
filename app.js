@@ -1,36 +1,6 @@
-const $ = (id) => document.getElementById(id);
-const fmt = (n, digits=2) => Number(n.toFixed(digits)).toLocaleString("en-US", {maximumFractionDigits:digits});
-const ingredientGrams = { flour:120, sugar:200, brown:220, powdered:120, butter:227, cocoa:85, water:240 };
-const ingredientNames = { flour:"all-purpose flour", sugar:"granulated sugar", brown:"packed brown sugar", powdered:"powdered sugar", butter:"butter", cocoa:"cocoa powder", water:"water" };
-
-function convertCups(){
-  const amount = Number($("cups").value), ingredient = $("ingredient").value;
-  if (!Number.isFinite(amount) || amount < 0) { $("cups-result").textContent = "Enter a valid non-negative cup amount."; return; }
-  $("cups-result").textContent = `${fmt(amount,3)} US cup${amount===1?"":"s"} ≈ ${fmt(amount*ingredientGrams[ingredient],1)} g ${ingredientNames[ingredient]}`;
-}
-$("convert-cups").addEventListener("click",convertCups);
-$("ingredient").addEventListener("change",convertCups);
-$("cups").addEventListener("input",convertCups);
-
-function fromF(){ const f=Number($("fahrenheit").value); if(!Number.isFinite(f)){ $("temp-result").textContent="Enter a valid Fahrenheit temperature."; return; } $("celsius").value=((f-32)*5/9).toFixed(1); $("temp-result").textContent=`${fmt(f,1)}°F = ${fmt((f-32)*5/9,1)}°C`; }
-function fromC(){ const c=Number($("celsius").value); if(!Number.isFinite(c)){ $("temp-result").textContent="Enter a valid Celsius temperature."; return; } $("fahrenheit").value=(c*9/5+32).toFixed(1); $("temp-result").textContent=`${fmt(c,1)}°C = ${fmt(c*9/5+32,1)}°F`; }
-$("fahrenheit").addEventListener("input",fromF); $("celsius").addEventListener("input",fromC);
-
-function convertSpoons(){
- const n=Number($("spoon-amount").value), dir=$("spoon-direction").value;
- if(!Number.isFinite(n)||n<0){$("spoon-result").textContent="Enter a valid non-negative amount.";return;}
- if(dir==="tbsp-tsp") $("spoon-result").textContent=`${fmt(n,3)} tablespoon${n===1?"":"s"} = ${fmt(n*3,3)} teaspoon${n*3===1?"":"s"}`;
- else $("spoon-result").textContent=`${fmt(n,3)} teaspoon${n===1?"":"s"} = ${fmt(n/3,3)} tablespoon${n/3===1?"":"s"}`;
-}
-$("convert-spoon").addEventListener("click",convertSpoons); $("spoon-amount").addEventListener("input",convertSpoons); $("spoon-direction").addEventListener("change",convertSpoons);
-
-function scaleRecipe(){
- const oldS=Number($("original-servings").value), newS=Number($("new-servings").value), amount=Number($("original-amount").value);
- if(!Number.isFinite(oldS)||!Number.isFinite(newS)||!Number.isFinite(amount)||oldS<=0||newS<=0||amount<0){$("scale-result").textContent="Enter positive serving counts and a non-negative amount.";return;}
- const scaled=amount*newS/oldS;
- $("scale-result").textContent=`${fmt(amount,3)} units for ${oldS} servings → ${fmt(scaled,3)} units for ${newS} servings`;
-}
-$("scale-recipe").addEventListener("click",scaleRecipe);
-["original-servings","new-servings","original-amount"].forEach(id=>$(id).addEventListener("input",scaleRecipe));
-$("year").textContent = new Date().getFullYear();
-convertCups(); fromF(); convertSpoons(); scaleRecipe();
+(()=>{const $=id=>document.getElementById(id);document.querySelectorAll('[data-year]').forEach(e=>e.textContent=new Date().getFullYear());
+function g(){if(!$('ingredient'))return;let n=Number($('cups').value)||0,p=Number($('ingredient').value);$('grams-result').textContent=(n*p).toLocaleString('en-US',{maximumFractionDigits:2});$('grams-detail').textContent=`${n} cup(s) × ${p} g per cup`;}['ingredient','cups'].forEach(id=>$(id)?.addEventListener(id==='cups'?'input':'change',g));
+const f={tsp:4.92892159375,tbsp:14.78676478125,floz:29.5735295625,cup:236.5882365,pint:473.176473,quart:946.352946,gallon:3785.411784,ml:1,liter:1000},nm={tsp:'teaspoons',tbsp:'tablespoons',floz:'US fluid ounces',cup:'US cups',pint:'US pints',quart:'US quarts',gallon:'US gallons',ml:'milliliters',liter:'liters'};
+function v(){if(!$('volume-amount'))return;let n=Number($('volume-amount').value)||0,a=$('volume-from').value,b=$('volume-to').value,r=n*f[a]/f[b];$('volume-result').textContent=r.toLocaleString('en-US',{maximumFractionDigits:5});$('volume-unit-label').textContent=nm[b];$('volume-detail').textContent=`${n} ${nm[a]} = ${r.toLocaleString('en-US',{maximumFractionDigits:5})} ${nm[b]}`;}['volume-amount','volume-from','volume-to'].forEach(id=>$(id)?.addEventListener(id==='volume-amount'?'input':'change',v));$('swap-volume')?.addEventListener('click',()=>{let a=$('volume-from').value;$('volume-from').value=$('volume-to').value;$('volume-to').value=a;v();});v();
+function t(){if(!$('temp-value'))return;let n=Number($('temp-value').value)||0,a=$('temp-from').value,b=$('temp-to').value,r=a===b?n:a==='f'?(n-32)*5/9:n*9/5+32,r2=Math.round(r*10)/10;$('temp-result').textContent=r2;$('temp-unit-label').textContent=b==='c'?'°C':'°F';$('temp-detail').textContent=`${n}°${a.toUpperCase()} = ${r2}°${b.toUpperCase()}`;}['temp-value','temp-from','temp-to'].forEach(id=>$(id)?.addEventListener(id==='temp-value'?'input':'change',t));$('swap-temp')?.addEventListener('click',()=>{let a=$('temp-from').value;$('temp-from').value=$('temp-to').value;$('temp-to').value=a;t();});t();
+function s(){if(!$('recipe-input'))return;let n=Number($('scale-factor').value);if(n<=0){$('scale-message').textContent='Enter a multiplier greater than zero.';return;}$('recipe-output').value=$('recipe-input').value.split(/\r?\n/).map(line=>line.replace(/(\d+\/\d+|\d*\.\d+|\d+)/,m=>{let x=m.includes('/')?m.split('/').reduce((a,b)=>a/Number(b),Number(m.split('/')[0])):Number(m);return String(Math.round(x*n*100)/100);})).join('\n');$('scale-message').textContent=`Scaled by ${n}×. Check pan size and baking time.`;}$('scale-recipe')?.addEventListener('click',s);document.querySelectorAll('[data-factor]').forEach(b=>b.addEventListener('click',()=>{$('scale-factor').value=b.dataset.factor;s();}));$('copy-recipe')?.addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('recipe-output').value);$('scale-message').textContent='Scaled ingredients copied.';}catch{$('recipe-output').select();document.execCommand('copy');}});if($('recipe-output'))s();})();
